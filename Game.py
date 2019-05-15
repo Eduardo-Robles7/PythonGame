@@ -27,16 +27,16 @@ class Game:
                     y_coordinate = self.player_pos[1]
 
                     if event.key == pygame.K_LEFT:
-                        x_coordinate -= self.PLAYER_SIZE
-                        if(x_coordinate < 0):
-                            x_coordinate = 0
+                        x_coordinate -= self.PLAYER_SIZE #get new coordinate
+                        if(x_coordinate < 0): #check if smaller than the width
+                            x_coordinate = 0  #set it within bound
 
                     elif event.key == pygame.K_RIGHT:
-                        x_coordinate += self.PLAYER_SIZE
-                        if(x_coordinate > self.SCREEN_WIDTH-50):
-                            x_coordinate = self.SCREEN_WIDTH-50
+                        x_coordinate += self.PLAYER_SIZE #get new coordinate
+                        if(x_coordinate > self.SCREEN_WIDTH-50): #check if bigger than width
+                            x_coordinate = self.SCREEN_WIDTH-50 #set it within bound
 
-                    self.player_pos = [x_coordinate,y_coordinate]
+                    self.player_pos = [x_coordinate,y_coordinate] #update the coordinate for player
 
             self.screen.fill(self.BACKGROUND_COLOR)
             pygame.draw.rect(self.screen, self.PLAYER_COLOR, (self.player_pos[0], self.player_pos[1], self.PLAYER_SIZE, self.PLAYER_SIZE))
