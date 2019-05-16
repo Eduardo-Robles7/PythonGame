@@ -14,6 +14,15 @@ class Game:
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.player_pos = [self.SCREEN_WIDTH/2, self.SCREEN_HEIGHT-2*self.PLAYER_SIZE]
         self.game_over = False
+
+        #create enemy 
+        self.ENEMY_SIZE = 50 
+        self.ENEMY_COLOR = (255,0,0)
+        self.enemy_pos = [random.randint(0,self.SCREEN_WIDTH-self.ENEMY_SIZE), 0]
+
+        #set game speed
+        self.clock = pygame.time.Clock()
+        self.SPEED = 10
         
 
     def run(self):
@@ -33,13 +42,27 @@ class Game:
 
                     elif event.key == pygame.K_RIGHT:
                         x_coordinate += self.PLAYER_SIZE #get new coordinate
-                        if(x_coordinate > self.SCREEN_WIDTH-50): #check if bigger than width
-                            x_coordinate = self.SCREEN_WIDTH-50 #set it within bound
+                        if(x_coordinate > self.SCREEN_WIDTH-self.PLAYER_SIZE): #check if bigger than width
+                            x_coordinate = self.SCREEN_WIDTH-self.PLAYER_SIZE #set it within bound
 
                     self.player_pos = [x_coordinate,y_coordinate] #update the coordinate for player
 
             self.screen.fill(self.BACKGROUND_COLOR)
+
+            #set enemy position
+            if self.enemy_pos[1] >= 0 and self.enemy_pos[1] < self.SCREEN_HEIGHT:
+                self.enemy_pos[1] += self.SPEED
+            else:
+                self.enemy_pos[0] = random.randint(0,self.SCREEN_WIDTH - self.ENEMY_SIZE)
+                self.enemy_pos[1] = 0
+
+            #draw player
             pygame.draw.rect(self.screen, self.PLAYER_COLOR, (self.player_pos[0], self.player_pos[1], self.PLAYER_SIZE, self.PLAYER_SIZE))
+
+            #draw enemy
+            pygame.draw.rect(self.screen, self.ENEMY_COLOR, (self.enemy_pos[0], self.enemy_pos[1], self.ENEMY_SIZE, self.ENEMY_SIZE))
+
+            self.clock.tick(30)
             pygame.display.update()
 
 
