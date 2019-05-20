@@ -19,20 +19,51 @@ class Game:
         self.ENEMY_SIZE = 50 
         self.ENEMY_COLOR = (255,0,0)
         self.enemy_pos = [random.randint(0,self.SCREEN_WIDTH-self.ENEMY_SIZE), 0]
+        self.enemy_list = [self.enemy_pos] #create a list of enemites
+        self.enemy_count = 10
 
         #set game speed
         self.clock = pygame.time.Clock()
         self.SPEED = 10
 
-    def detect_collision(self,player_pos, enemy_pos):
+    def drop_enemies(self):
+        delay = random.random()
+        if len(self.enemy_list) < self.enemy_count and delay < 0.1:
+            x_pos = random.randint(0, self.SCREEN_WIDTH-self.ENEMY_SIZE) #create random location
+            y_pos = 0
+            self.enemy_list.append([x_pos, y_pos]) #add the new enemy to our list
+
+    def draw_enemies(self):
+        for enemy in self.enemy_list:
+           pygame.draw.rect(self.screen, self.ENEMY_COLOR, (enemy[0], enemy[1], self.ENEMY_SIZE, self.ENEMY_SIZE))
+
+    def draw_player(self):
+        pygame.draw.rect(self.screen, self.PLAYER_COLOR, (self.player_pos[0], self.player_pos[1], self.PLAYER_SIZE, self.PLAYER_SIZE))
+
+    def update_enemy_positions(self):
+        for index, enemy in enumerate(self.enemy_list):
+          #set enemy position
+            if enemy[1] >= 0 and enemy[1] < self.SCREEN_HEIGHT:
+                enemy[1] += self.SPEED
+            else:
+                 self.enemy_list.pop(index)
+
+    def collision_check(self):
+        for enemy in self.enemy_list:
+             if self.detect_collision(self.player_pos, enemy):
+                 return True
+        return False
+ 
+
+    def detect_collision(self, player_pos, enemy_pos):
 
         #player coordinate
-        player_x = self.player_pos[0]
-        player_y = self.player_pos[1]
+        player_x = player_pos[0]
+        player_y = player_pos[1]
 
         #enemy coodrinate
-        enemy_x = self.enemy_pos[0]
-        enemy_y = self.enemy_pos[1]
+        enemy_x = enemy_pos[0]
+        enemy_y = enemy_pos[1]
 
         if(enemy_x >= player_x and enemy_x < (player_x + self.PLAYER_SIZE)) or (player_x >= enemy_x and player_x < (enemy_x + self.ENEMY_SIZE)):
              if(enemy_y >= player_y and enemy_y < (player_y + self.PLAYER_SIZE)) or (player_y >= enemy_y and player_y < (enemy_y + self.ENEMY_SIZE)):
@@ -63,24 +94,15 @@ class Game:
                     self.player_pos = [x_coordinate,y_coordinate] #update the coordinate for player
 
             self.screen.fill(self.BACKGROUND_COLOR)
+            self.drop_enemies()
+            self.update_enemy_positions()
 
-            #set enemy position
-            if self.enemy_pos[1] >= 0 and self.enemy_pos[1] < self.SCREEN_HEIGHT:
-                self.enemy_pos[1] += self.SPEED
-            else:
-                self.enemy_pos[0] = random.randint(0,self.SCREEN_WIDTH - self.ENEMY_SIZE)
-                self.enemy_pos[1] = 0
-
-            #detect for collision
-            if self.detect_collision(self.player_pos, self.enemy_pos):
-                self.game_over = True #end the game 
+            if self.collision_check():
+                self.game_over = True
                 break
 
-            #draw player
-            pygame.draw.rect(self.screen, self.PLAYER_COLOR, (self.player_pos[0], self.player_pos[1], self.PLAYER_SIZE, self.PLAYER_SIZE))
-
-            #draw enemy
-            pygame.draw.rect(self.screen, self.ENEMY_COLOR, (self.enemy_pos[0], self.enemy_pos[1], self.ENEMY_SIZE, self.ENEMY_SIZE))
+            self.draw_enemies()
+            self.draw_player()
 
             self.clock.tick(30)
             pygame.display.update()
