@@ -25,6 +25,11 @@ class Game:
         #set game speed
         self.clock = pygame.time.Clock()
         self.SPEED = 10
+        
+        #score settings
+        self.score = 0
+        self.gameFont = pygame.font.SysFont("monospace",35)
+        self.score_color = (255,255,0) #yellow
 
     def drop_enemies(self):
         delay = random.random()
@@ -47,6 +52,13 @@ class Game:
                 enemy[1] += self.SPEED
             else:
                  self.enemy_list.pop(index)
+                 self.score = self.score + 1 #increase the score
+
+    def update_score(self):
+        text = "Score:" + str(self.score)
+        label = self.gameFont.render(text,1,self.score_color)
+        self.screen.blit(label,(self.SCREEN_WIDTH-150, self.SCREEN_HEIGHT-40))
+ 
 
     def collision_check(self):
         for enemy in self.enemy_list:
@@ -96,6 +108,7 @@ class Game:
             self.screen.fill(self.BACKGROUND_COLOR)
             self.drop_enemies()
             self.update_enemy_positions()
+            self.update_score()
 
             if self.collision_check():
                 self.game_over = True
