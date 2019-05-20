@@ -58,7 +58,18 @@ class Game:
         text = "Score:" + str(self.score)
         label = self.gameFont.render(text,1,self.score_color)
         self.screen.blit(label,(self.SCREEN_WIDTH-150, self.SCREEN_HEIGHT-40))
- 
+
+    def update_level(self):
+        if self.score < 20:
+            self.SPEED = 5
+        elif self.score < 40:
+            self.SPEED = 10
+        elif self.score < 60:
+            self.SPEED = 15
+        elif self.score < 100:
+            self.SPEED = 25
+        else:
+            self.SPEED = 35
 
     def collision_check(self):
         for enemy in self.enemy_list:
@@ -109,6 +120,7 @@ class Game:
             self.drop_enemies()
             self.update_enemy_positions()
             self.update_score()
+            self.update_level()
 
             if self.collision_check():
                 self.game_over = True
