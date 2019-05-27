@@ -81,6 +81,22 @@ class Game:
                  return True
         return False
 
+    def detect_collision(self, player_pos, enemy_pos):
+
+        #player coordinate
+        player_x = player_pos[0]
+        player_y = player_pos[1]
+
+        #enemy coodrinate
+        enemy_x = enemy_pos[0]
+        enemy_y = enemy_pos[1]
+
+        if(enemy_x >= player_x and enemy_x < (player_x + self.PLAYER_SIZE)) or (player_x >= enemy_x and player_x < (enemy_x + self.ENEMY_SIZE)):
+             if(enemy_y >= player_y and enemy_y < (player_y + self.PLAYER_SIZE)) or (player_y >= enemy_y and player_y < (enemy_y + self.ENEMY_SIZE)):
+                 return True
+
+        return False
+
     def end_game(self):
 
         #set the game over 
@@ -107,22 +123,6 @@ class Game:
             self.screen.blit(score_label,(250, 300)) 
             pygame.display.update()
 
-
-    def detect_collision(self, player_pos, enemy_pos):
-
-        #player coordinate
-        player_x = player_pos[0]
-        player_y = player_pos[1]
-
-        #enemy coodrinate
-        enemy_x = enemy_pos[0]
-        enemy_y = enemy_pos[1]
-
-        if(enemy_x >= player_x and enemy_x < (player_x + self.PLAYER_SIZE)) or (player_x >= enemy_x and player_x < (enemy_x + self.ENEMY_SIZE)):
-             if(enemy_y >= player_y and enemy_y < (player_y + self.PLAYER_SIZE)) or (player_y >= enemy_y and player_y < (enemy_y + self.ENEMY_SIZE)):
-                 return True
-
-        return False
 
     def run(self):
         while not self.game_over:
