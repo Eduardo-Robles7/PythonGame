@@ -12,6 +12,7 @@ class Game:
         self.SCREEN_HEIGHT = 600
         self.BACKGROUND_COLOR = (0,0,0) #black color
         self.PLAYER_COLOR = (0,0,255) #blue color
+        self.WHITE = (255,255,255)
         self.PLAYER_SIZE = 50
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.player_pos = [self.SCREEN_WIDTH/2, self.SCREEN_HEIGHT-2*self.PLAYER_SIZE]
@@ -65,6 +66,7 @@ class Game:
         if self.score < 20:
             self.SPEED = 5
         elif self.score < 40:
+            self.PLAYER_COLOR = self.WHITE
             self.SPEED = 10
         elif self.score < 60:
             self.SPEED = 15
@@ -101,7 +103,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     sys.exit() 
             self.screen.fill(self.BACKGROUND_COLOR) 
-            self.screen.blit(game_over_label,(200, 50)) 
+            self.screen.blit(game_over_label,(250, 50)) 
             self.screen.blit(score_label,(250, 300)) 
             pygame.display.update()
 
