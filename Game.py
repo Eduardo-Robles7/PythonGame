@@ -17,7 +17,7 @@ class Game:
 
         #create enemy 
         self.ENEMY_SIZE = 50 
-        self.ENEMY_COLOR = (255,0,0)
+        self.ENEMY_COLOR = (191, 255, 0)
         self.enemy_pos = [random.randint(0,self.SCREEN_WIDTH-self.ENEMY_SIZE), 0]
         self.enemy_list = [self.enemy_pos] #create a list of enemites
         self.enemy_count = 10
@@ -76,7 +76,33 @@ class Game:
              if self.detect_collision(self.player_pos, enemy):
                  return True
         return False
- 
+
+    def end_game(self):
+
+        #set the game over 
+         self.game_over = True
+         player_exit = False
+
+        #create labels for game over screen
+         exitFont = pygame.font.SysFont("monospace",80)
+         RED = (255,0,0)
+
+         game_over = "Game Over"
+         game_over_label = exitFont.render(game_over,1,RED)
+
+         score = "Score:" + str(self.score)
+         score_label = exitFont.render(score,1,(RED))
+       
+        #show game over screen until player quits
+         while not player_exit:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit() 
+            self.screen.fill(self.BACKGROUND_COLOR) 
+            self.screen.blit(game_over_label,(200, 50)) 
+            self.screen.blit(score_label,(250, 300)) 
+            pygame.display.update()
+
 
     def detect_collision(self, player_pos, enemy_pos):
 
@@ -123,14 +149,14 @@ class Game:
             self.update_level()
 
             if self.collision_check():
-                self.game_over = True
-                break
+                self.end_game()
 
             self.draw_enemies()
             self.draw_player()
 
             self.clock.tick(30)
             pygame.display.update()
+
 
 
 
