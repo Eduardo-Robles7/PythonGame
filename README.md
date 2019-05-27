@@ -19,7 +19,7 @@ python -V
 - The Python version should be displayed
 ![Python Version](images/python-version.png)
 - If you do not see a version appear, go back and attempt to reinstall Python with default settings
-
+--- 
 ### Installing Pygame
 #### Step 1. Open the command prompt and enter the following command
 ```bash
@@ -31,10 +31,14 @@ python -m pygame.examples.aliens
 ```
 - If it works, then you are ready to proceed , otherwise retry Pygame installation
 
+--- 
+
 ### Installing PyCharm
 #### Step.1 Head over to `https://www.jetbrains.com/pycharm/download/` to download Python Community Edition (Free)
 #### Step.2 Run the install and use default settings 
 #### Step.3 Open Pycharm and verify installation
+
+--- 
 
 ### Download and open the starter project in Pycharm
 ### Step.1 Head over to `dummy` and click on download 
@@ -54,6 +58,8 @@ dummy dummy
 - `Master.py` This holds what the final verison of `Game.py` should look like, use it as reference
 
 ## Coding the Game
+
+
 
 
 
