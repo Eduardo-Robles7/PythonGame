@@ -12,7 +12,6 @@ class Game:
         self.SCREEN_HEIGHT = 600
         self.BACKGROUND_COLOR = (0,0,0) #black color
         self.PLAYER_COLOR = (0,0,255) #blue color
-        self.WHITE = (255,255,255)
         self.PLAYER_SIZE = 50
         self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         self.player_pos = [self.SCREEN_WIDTH/2, self.SCREEN_HEIGHT-2*self.PLAYER_SIZE]
@@ -20,7 +19,7 @@ class Game:
 
         #create enemy 
         self.ENEMY_SIZE = 50 
-        self.ENEMY_COLOR = (191, 255, 0)
+        self.ENEMY_COLOR = (191, 255, 0) #green color
         self.enemy_pos = [random.randint(0,self.SCREEN_WIDTH-self.ENEMY_SIZE), 0]
         self.enemy_list = [self.enemy_pos] #create a list of enemites
         self.enemy_count = 10
@@ -42,11 +41,11 @@ class Game:
             self.enemy_list.append([x_pos, y_pos]) #add the new enemy to our list
 
     def draw_enemies(self):
-        for enemy in self.enemy_list:
-           pygame.draw.rect(self.screen, self.ENEMY_COLOR, (enemy[0], enemy[1], self.ENEMY_SIZE, self.ENEMY_SIZE))
+        for enemy in self.enemy_list: #iterate through the list 
+           pygame.draw.rect(self.screen, self.ENEMY_COLOR, (enemy[0], enemy[1], self.ENEMY_SIZE, self.ENEMY_SIZE)) #draw enemy
 
     def draw_player(self):
-        pygame.draw.rect(self.screen, self.PLAYER_COLOR, (self.player_pos[0], self.player_pos[1], self.PLAYER_SIZE, self.PLAYER_SIZE))
+        pygame.draw.rect(self.screen, self.PLAYER_COLOR, (self.player_pos[0], self.player_pos[1], self.PLAYER_SIZE, self.PLAYER_SIZE)) #draw player
 
     def update_enemy_positions(self):
         for index, enemy in enumerate(self.enemy_list):
@@ -58,15 +57,14 @@ class Game:
                  self.score = self.score + 1 #increase the score
 
     def update_score(self):
-        text = "Score:" + str(self.score)
-        label = self.gameFont.render(text,1,self.score_color)
-        self.screen.blit(label,(self.SCREEN_WIDTH-150, self.SCREEN_HEIGHT-40))
+        text = "Score:" + str(self.score) #create text containing score
+        label = self.gameFont.render(text,1,self.score_color) #create a label with a color
+        self.screen.blit(label,(self.SCREEN_WIDTH-150, self.SCREEN_HEIGHT-40)) #draw label
 
     def update_level(self):
         if self.score < 20:
             self.SPEED = 5
         elif self.score < 40:
-            self.PLAYER_COLOR = self.WHITE
             self.SPEED = 10
         elif self.score < 60:
             self.SPEED = 15
@@ -76,8 +74,8 @@ class Game:
             self.SPEED = 35
 
     def collision_check(self):
-        for enemy in self.enemy_list:
-             if self.detect_collision(self.player_pos, enemy):
+        for enemy in self.enemy_list: #iterate through list
+             if self.detect_collision(self.player_pos, enemy): #check for collision
                  return True
         return False
 
@@ -91,6 +89,7 @@ class Game:
         enemy_x = enemy_pos[0]
         enemy_y = enemy_pos[1]
 
+        #if player and enemy overlap at anypoint, return true 
         if(enemy_x >= player_x and enemy_x < (player_x + self.PLAYER_SIZE)) or (player_x >= enemy_x and player_x < (enemy_x + self.ENEMY_SIZE)):
              if(enemy_y >= player_y and enemy_y < (player_y + self.PLAYER_SIZE)) or (player_y >= enemy_y and player_y < (enemy_y + self.ENEMY_SIZE)):
                  return True
