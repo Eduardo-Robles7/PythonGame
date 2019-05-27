@@ -60,7 +60,7 @@ class Game:
     def update_score(self):
         text = "Score:" + str(self.score)
         label = self.gameFont.render(text,1,self.score_color)
-        self.screen.blit(label,(self.SCREEN_WIDTH-150, self.SCREEN_HEIGHT-40))
+        self.screen.blit(label,(self.SCREEN_WIDTH-200, self.SCREEN_HEIGHT-40))
 
     def update_level(self):
         if self.score < 20:
@@ -110,6 +110,11 @@ class Game:
          game_over = "Game Over"
          game_over_label = exitFont.render(game_over,1,RED)
 
+         try_again = "press any key to"
+         try_again_label = exitFont.render(try_again,1,RED)
+         try_again2 = "try again"
+         try_again_label2 = exitFont.render(try_again2,1,RED)
+
          score = "Score:" + str(self.score)
          score_label = exitFont.render(score,1,(RED))
        
@@ -119,11 +124,18 @@ class Game:
                 if event.type == pygame.QUIT:
                     sys.exit() 
             self.screen.fill(self.BACKGROUND_COLOR) 
-            self.screen.blit(game_over_label,(250, 50)) 
-            self.screen.blit(score_label,(250, 300)) 
+            self.screen.blit(game_over_label,(190, 50))
+            self.screen.blit(score_label,(190, 450))
+            self.screen.blit(try_again_label,(20, 200))
+            self.screen.blit(try_again_label2,(190, 300))
+            
             pygame.display.update()
 
-
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    game = Game()
+                    game.run()
+       
     def run(self):
         while not self.game_over:
             for event in pygame.event.get():
@@ -159,8 +171,5 @@ class Game:
             self.draw_player()
 
             self.clock.tick(30)
+            
             pygame.display.update()
-
-
-
-
