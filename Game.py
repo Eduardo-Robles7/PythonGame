@@ -5,6 +5,8 @@ import sys
 class Game:
 
     def __init__(self):
+
+        #Game settings
         pygame.init()
         self.SCREEN_WIDTH = 800
         self.SCREEN_HEIGHT = 600
