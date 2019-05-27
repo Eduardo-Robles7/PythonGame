@@ -8,7 +8,7 @@ A simple Python Game
 
 ### Installing Python
 #### Step 1. Head over to `https://www.python.org/downloads` to download the latest Python
-![Python](images/install-python.png)
+![Python](images/Install-python.png)
 #### Step 2. Run the Python installer and use default settings
 ![Python Installer](images/python-installer.png)
 #### Step 3. Verify Python was installed correctly
