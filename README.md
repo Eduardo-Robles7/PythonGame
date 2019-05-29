@@ -193,7 +193,7 @@ def update_enemy_positions(self):
 def update_score(self):
         text = "Score:" + str(self.score) #create text containing score
         label = self.gameFont.render(text,1,self.score_color) #create a label with a color
-        self.screen.blit(label,(self.SCREEN_WIDTH-150, self.SCREEN_HEIGHT-40)) #draw label
+        self.screen.blit(label,(self.SCREEN_WIDTH-200, self.SCREEN_HEIGHT-40)) #draw label
 ```
 #### update_level 
 * This function updates the speed of the game corresponding to the player score.
@@ -253,7 +253,90 @@ def detect_collision(self, player_pos, enemy_pos):
 
         return False
 ```
+#### end_game
+* This function is called when a collision has been detected and the game is over.
+* First it sets `game_over` equal to true, which stops the game screen.
+* Labels and text are created to show the final score.
+* The loop `while not player_exit` is ran continiously until the user exits the program.  
+Everything inside this loop gets executed over and over again until an event happens from the user.  
+* The part `for event in pygame.event.get():` is a built in function from pygame.  
+It it used to detect various events throughout the game. It is continuously running in the background.
+* Common type of events are keypresses, keys being held, exiting a window.
+* In our case `if event.type == pygame.QUIT` we look for when the player clicks the exit button of the game.
+* Lastly it draws a game over screen and displays the final score.
 
+```python
+ #set the game over 
+         self.game_over = True
+         player_exit = False
+
+        #create labels for game over screen
+         exitFont = pygame.font.SysFont("monospace",80)
+         RED = (255,0,0)
+
+         game_over = "Game Over"
+         game_over_label = exitFont.render(game_over,1,RED)
+
+         score = "Score:" + str(self.score)
+         score_label = exitFont.render(score,1,(RED))
+       
+        #show game over screen until player quits
+         while not player_exit:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit() 
+            self.screen.fill(self.BACKGROUND_COLOR) 
+            self.screen.blit(game_over_label,(250, 50)) 
+            self.screen.blit(score_label,(250, 300)) 
+            pygame.display.update()
+```
+
+#### run
+* This function is the game loop and is in charge of running all the game logic defined above.
+* Runs constantly every second until the player has quit or died. 
+* Draws the game screen , enemies and player. 
+* Keeps track of player keyboard events, detecting the arrow keys for movement.
+* Checks for collisions and increases the score.
+* Updates the game screen.
+
+```python
+def run(self):
+        while not self.game_over:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                
+                if event.type == pygame.KEYDOWN:
+                    x_coordinate = self.player_pos[0]
+                    y_coordinate = self.player_pos[1]
+
+                    if event.key == pygame.K_LEFT:
+                        x_coordinate -= self.PLAYER_SIZE #get new coordinate
+                        if(x_coordinate < 0): #check if smaller than the width
+                            x_coordinate = 0  #set it within bound
+
+                    elif event.key == pygame.K_RIGHT:
+                        x_coordinate += self.PLAYER_SIZE #get new coordinate
+                        if(x_coordinate > self.SCREEN_WIDTH-self.PLAYER_SIZE): #check if bigger than width
+                            x_coordinate = self.SCREEN_WIDTH-self.PLAYER_SIZE #set it within bound
+
+                    self.player_pos = [x_coordinate,y_coordinate] #update the coordinate for player
+
+            self.screen.fill(self.BACKGROUND_COLOR)
+            self.drop_enemies()
+            self.update_enemy_positions()
+            self.update_score()
+            self.update_level()
+
+            if self.collision_check():
+                self.end_game()
+
+            self.draw_enemies()
+            self.draw_player()
+
+            self.clock.tick(30)
+            pygame.display.update()
+```
 
 
 

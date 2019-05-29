@@ -59,7 +59,7 @@ class Game:
     def update_score(self):
         text = "Score:" + str(self.score) #create text containing score
         label = self.gameFont.render(text,1,self.score_color) #create a label with a color
-        self.screen.blit(label,(self.SCREEN_WIDTH-150, self.SCREEN_HEIGHT-40)) #draw label
+        self.screen.blit(label,(self.SCREEN_WIDTH-200, self.SCREEN_HEIGHT-40)) #draw label
 
     def update_level(self):
         if self.score < 20:
